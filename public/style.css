@@ -1,0 +1,133 @@
+/* public/style.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1, h2 {
+    color: #555;
+    text-align: center;
+}
+
+#status-lanchonete {
+    text-align: center;
+    padding: 10px;
+    margin: 15px 0;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-aberta {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-fechada {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+input, select, button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.hidden {
+    display: none;
+}
+
+.pedido {
+    background: #e9ecef;
+    padding: 15px;
+    border-left: 5px solid #ccc;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.pedido.status-em-preparo { border-color: #ffc107; }
+.pedido.status-pronto { border-color: #28a745; }
+.pedido.status-retirado { border-color: #6c757d; text-decoration: line-through; opacity: 0.7; }
+
+.pedido em { font-weight: bold; }
+
+.timer {
+    color: #dc3545;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.btn-retirar {
+    background-color: #28a745;
+}
+.btn-retirar:hover {
+    background-color: #218838;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #777;
+    font-size: 0.9em;
+}
+
+/* ... (todo o CSS anterior) ... */
+
+/* NOVO - Estilos para o container dos botões de controle do admin */
+.botoes-controle {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.btn-fechar {
+    background-color: #dc3545; /* Vermelho */
+}
+
+.btn-fechar:hover:not(:disabled) {
+    background-color: #c82333;
+}

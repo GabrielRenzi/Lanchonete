@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lanchonete - Fazer Pedido</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Faça seu Pedido</h1>
+        <div id="status-lanchonete" class="status-fechada">Lanchonete Fechada</div>
+
+        <form id="form-pedido" class="hidden">
+            <input type="text" id="nome-cliente" placeholder="Seu nome" required>
+            <select id="item-pedido" required>
+                <option value="X-Salada">X-Salada</option>
+                <option value="X-Bacon">X-Bacon</option>
+                <option value="Suco de Laranja">Suco de Laranja</option>
+                <option value="Refrigerante">Refrigerante</option>
+            </select>
+            <button type="submit">Fazer Pedido</button>
+        </form>
+
+        <hr>
+
+        <h2>Acompanhamento de Pedidos</h2>
+        <div id="painel-pedidos">
+            </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const statusLanchonete = document.getElementById('status-lanchonete');
+        const formPedido = document.getElementById('form-pedido');
+        const painelPedidos = document.getElementById('painel-pedidos');
+
+        socket.on('estado.atual', (estado) => {
+            console.log('Estado inicial recebido:', estado);
+            atualizarInterface(estado);
+        });
+
+        socket.on('lanchonete.aberta', (estado) => {
+            console.log('Evento recebido: lanchonete.aberta');
+            atualizarInterface(estado);
+        });
+        
+        socket.on('lanchonete.fechada', (estado) => {
+            console.log('Evento recebido: lanchonete.fechada');
+            atualizarInterface(estado);
+        });
+
+        socket.on('pedido.empreparo', (estado) => {
+            console.log('Evento recebido: pedido.empreparo');
+            atualizarInterface(estado);
+        });
+        socket.on('pedido.pronto', (estado) => {
+            console.log('Evento recebido: pedido.pronto');
+            atualizarInterface(estado);
+        });
+        socket.on('pedido.retirado', (estado) => {
+            console.log('Evento recebido: pedido.retirado');
+            atualizarInterface(estado);
+        });
+        
+        socket.on('erro.operacao', (erro) => {
+            alert(erro.message);
+        });
+
+        formPedido.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const nomeCliente = document.getElementById('nome-cliente').value;
+            const itemPedido = document.getElementById('item-pedido').value;
+            socket.emit('pedido.criar', { cliente: nomeCliente, item: itemPedido });
+            document.getElementById('nome-cliente').value = '';
+        });
+
+
+        function atualizarInterface(estado) {
+            if (estado.aberta) {
+                statusLanchonete.textContent = 'Lanchonete Aberta';
+                statusLanchonete.className = 'status-aberta';
+                formPedido.classList.remove('hidden');
+            } else {
+                statusLanchonete.textContent = 'Lanchonete Fechada';
+                statusLanchonete.className = 'status-fechada';
+                formPedido.classList.add('hidden');
+            }
+
+            painelPedidos.innerHTML = '';
+            if (estado.pedidos.length === 0) {
+                painelPedidos.innerHTML = '<p>Nenhum pedido na fila.</p>';
+            } else {
+                estado.pedidos.forEach(pedido => {
+                    const pedidoDiv = document.createElement('div');
+                    pedidoDiv.className = `pedido status-${pedido.status.toLowerCase().replace(' ', '-')}`;
+                    
+                    let conteudoHTML = `
+                        <strong>Pedido #${pedido.id} (${pedido.item})</strong> - 
+                        <span>Cliente: ${pedido.cliente}</span> - 
+                        <em>Status: ${pedido.status}</em>
+                    `;
+
+                    if (pedido.status === 'Em preparo') {
+                        const tempoRestante = (pedido.horaCriacao + pedido.tempoPreparo) - Date.now();
+                        if (tempoRestante > 0) {
+                             conteudoHTML += `<div class="timer" data-fim="${pedido.horaCriacao + pedido.tempoPreparo}"></div>`;
+                        }
+                    }
+
+                    pedidoDiv.innerHTML = conteudoHTML;
+                    painelPedidos.appendChild(pedidoDiv);
+                });
+                iniciarContadores();
+            }
+        }
+        
+        let intervalId;
+        function iniciarContadores() {
+            if (intervalId) clearInterval(intervalId);
+            intervalId = setInterval(() => {
+                const timers = document.querySelectorAll('.timer');
+                timers.forEach(timer => {
+                    const tempoFim = parseInt(timer.getAttribute('data-fim'), 10);
+                    const tempoRestante = Math.round((tempoFim - Date.now()) / 1000);
+                    if (tempoRestante > 0) {
+                        timer.textContent = `(Pronto em ${tempoRestante}s)`;
+                    } else {
+                        timer.textContent = "(Finalizando...)";
+                    }
+                });
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
+</body>
+</html>

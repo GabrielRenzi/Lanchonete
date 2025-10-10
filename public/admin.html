@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lanchonete - Painel do Admin</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Painel do Administrador</h1>
+        
+        <div class="botoes-controle">
+            <button id="btn-abrir-lanchonete">Abrir Lanchonete</button>
+            <button id="btn-fechar-lanchonete" class="btn-fechar">Fechar Lanchonete</button>
+        </div>
+
+        <div id="status-lanchonete" class="status-fechada">Lanchonete Fechada</div>
+
+        <hr>
+
+        <h2>Pedidos Atuais</h2>
+        <div id="painel-pedidos-admin">
+            </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        const btnAbrirLanchonete = document.getElementById('btn-abrir-lanchonete');
+        const btnFecharLanchonete = document.getElementById('btn-fechar-lanchonete'); // NOVO
+        const statusLanchonete = document.getElementById('status-lanchonete');
+        const painelPedidosAdmin = document.getElementById('painel-pedidos-admin');
+
+        btnAbrirLanchonete.addEventListener('click', () => {
+            socket.emit('lanchonete.abrir');
+        });
+
+        //Evento para fechar a lanchonete
+        btnFecharLanchonete.addEventListener('click', () => {
+            if (confirm('Tem certeza que deseja fechar a lanchonete e limpar todos os pedidos?')) {
+                socket.emit('lanchonete.fechar');
+            }
+        });
+
+        // Evento para marcar pedido como retirado
+        painelPedidosAdmin.addEventListener('click', (event) => {
+            if (event.target.classList.contains('btn-retirar')) {
+                const idPedido = parseInt(event.target.getAttribute('data-id'), 10);
+                socket.emit('pedido.retirar', idPedido);
+            }
+        });
+
+        socket.on('estado.atual', (estado) => {
+            atualizarInterfaceAdmin(estado);
+        });
+        socket.on('lanchonete.aberta', (estado) => {
+            atualizarInterfaceAdmin(estado);
+        });
+
+        socket.on('lanchonete.fechada', (estado) => {
+            atualizarInterfaceAdmin(estado);
+        });
+        socket.on('pedido.empreparo', (estado) => {
+            atualizarInterfaceAdmin(estado);
+        });
+        socket.on('pedido.pronto', (estado) => {
+            atualizarInterfaceAdmin(estado);
+        });
+        socket.on('pedido.retirado', (estado) => {
+            atualizarInterfaceAdmin(estado);
+        });
+
+        function atualizarInterfaceAdmin(estado) {
+            if (estado.aberta) {
+                statusLanchonete.textContent = 'Lanchonete Aberta';
+                statusLanchonete.className = 'status-aberta';
+                btnAbrirLanchonete.disabled = true;
+                btnFecharLanchonete.disabled = false; 
+            } else {
+                statusLanchonete.textContent = 'Lanchonete Fechada';
+                statusLanchonete.className = 'status-fechada';
+                btnAbrirLanchonete.disabled = false;
+                btnFecharLanchonete.disabled = true;
+            }
+
+            painelPedidosAdmin.innerHTML = '';
+            if (estado.pedidos.length === 0) {
+                painelPedidosAdmin.innerHTML = '<p>Nenhum pedido na fila.</p>';
+            } else {
+                estado.pedidos.forEach(pedido => {
+                    const pedidoDiv = document.createElement('div');
+                    pedidoDiv.className = `pedido status-${pedido.status.toLowerCase().replace(' ', '-')}`;
+                    
+                    let conteudoHTML = `
+                        <strong>Pedido #${pedido.id} (${pedido.item})</strong> - 
+                        <span>Cliente: ${pedido.cliente}</span> - 
+                        <em>Status: ${pedido.status}</em>
+                    `;
+                    
+                    if (pedido.status === 'Pronto') {
+                        conteudoHTML += `<button class="btn-retirar" data-id="${pedido.id}">Marcar como Retirado</button>`;
+                    }
+
+                    pedidoDiv.innerHTML = conteudoHTML;
+                    painelPedidosAdmin.appendChild(pedidoDiv);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
