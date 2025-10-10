@@ -14,7 +14,7 @@ Este projeto implementa uma aplicação web em tempo real que simula o sistema d
 1.  **Pré-requisitos:** É necessário ter o [Node.js](https://nodejs.org/) instalado.
 2.  **Clone o repositório:**
     ```bash
-    git clone [URL_DO_SEU_REPOSITORIO_NO_GITHUB]
+    git clone https://github.com/GabrielRenzi/Lanchonete.git
     ```
 3.  **Navegue até a pasta do projeto:**
     ```bash
