@@ -1,11 +1,6 @@
-/* public/style.css */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    color: #333;
-    line-height: 1.6;
-    margin: 0;
-    padding: 20px;
 }
 
 .container {
@@ -13,8 +8,6 @@ body {
     margin: auto;
     background: #fff;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 h1, h2 {
@@ -41,12 +34,6 @@ h1, h2 {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
-}
-
-form {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
 }
 
 input, select, button {
@@ -114,9 +101,6 @@ footer {
     font-size: 0.9em;
 }
 
-/* ... (todo o CSS anterior) ... */
-
-/* NOVO - Estilos para o container dos botões de controle do admin */
 .botoes-controle {
     display: flex;
     justify-content: center;
@@ -125,7 +109,7 @@ footer {
 }
 
 .btn-fechar {
-    background-color: #dc3545; /* Vermelho */
+    background-color: #dc3545; 
 }
 
 .btn-fechar:hover:not(:disabled) {
