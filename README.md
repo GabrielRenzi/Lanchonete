@@ -34,7 +34,7 @@ Este projeto implementa uma aplicação web em tempo real que simula o sistema d
 
 ### Respostas aos Critérios do Trabalho
 
-#### [cite_start]Quais eventos o seu sistema emite e escuta? [cite: 56]
+#### Quais eventos o seu sistema emite e escuta?
 
 O sistema utiliza a biblioteca Socket.IO para uma comunicação bidirecional. [cite_start]Os nomes seguem a estrutura `objeto.acao`[cite: 43].
 
