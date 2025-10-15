@@ -51,7 +51,7 @@ O sistema utiliza a biblioteca Socket.IO para uma comunicação bidirecional. Os
 * `pedido.retirado`: Notifica todos que um pedido foi finalizado e entregue.
 * `erro.operacao`: Enviado para um cliente específico quando uma ação falha (ex: pedir com a lanchonete fechada).
 
-#### Como o sistema sabe quando deve atualizar os outros usuários? [cite: 57]
+#### Como o sistema sabe quando deve atualizar os outros usuários?
 
 O sistema atualiza todos os usuários conectados sempre que uma ação relevante modifica o **estado central da aplicação**, que é mantido no servidor (`server.js`). 
 
