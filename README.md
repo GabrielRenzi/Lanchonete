@@ -36,7 +36,7 @@ Este projeto implementa uma aplicação web em tempo real que simula o sistema d
 
 #### Quais eventos o seu sistema emite e escuta?
 
-O sistema utiliza a biblioteca Socket.IO para uma comunicação bidirecional. [cite_start]Os nomes seguem a estrutura `objeto.acao`[cite: 43].
+O sistema utiliza a biblioteca Socket.IO para uma comunicação bidirecional. Os nomes seguem a estrutura `objeto.acao`.
 
 **Eventos Emitidos pelo Cliente (e escutados pelo Servidor):**
 * `lanchonete.abrir`: (Admin) Solicita a abertura da lanchonete, iniciando o sistema.
