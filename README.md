@@ -51,17 +51,17 @@ O sistema utiliza a biblioteca Socket.IO para uma comunicação bidirecional. Os
 * `pedido.retirado`: Notifica todos que um pedido foi finalizado e entregue.
 * `erro.operacao`: Enviado para um cliente específico quando uma ação falha (ex: pedir com a lanchonete fechada).
 
-#### [cite_start]Como o sistema sabe quando deve atualizar os outros usuários? [cite: 57]
+#### Como o sistema sabe quando deve atualizar os outros usuários? [cite: 57]
 
-[cite_start]O sistema atualiza todos os usuários conectados sempre que uma ação relevante modifica o **estado central da aplicação**, que é mantido no servidor (`server.js`). [cite: 16]
+O sistema atualiza todos os usuários conectados sempre que uma ação relevante modifica o **estado central da aplicação**, que é mantido no servidor (`server.js`). 
 
 O fluxo é o seguinte:
 1.  Um cliente (participante ou admin) emite um evento para o servidor (ex: `pedido.criar`).
 2.  O servidor escuta (`socket.on`) este evento, processa a lógica de negócio e atualiza a variável `lanchoneteState`.
 3.  Imediatamente após alterar o estado, o servidor **emite um novo evento** para **todos os clientes conectados** usando `io.emit()`.
-4.  [cite_start]Todos os clientes, ao receberem este evento, executam uma função que redesenha a interface com os dados atualizados, garantindo a sincronização em tempo real. [cite: 25]
+4.  Todos os clientes, ao receberem este evento, executam uma função que redesenha a interface com os dados atualizados, garantindo a sincronização em tempo real. 
 
-#### [cite_start]Que parte do código mostra claramente o uso do paradigma orientado a eventos? [cite: 58]
+#### Que parte do código mostra claramente o uso do paradigma orientado a eventos?
 
 O uso do paradigma é mais evidente no arquivo **`server.js`**, dentro do bloco `io.on('connection', (socket) => { ... });`.
 
@@ -70,4 +70,4 @@ Esta seção é a essência do paradigma:
 - **Reação a Eventos:** Dentro de cada `socket.on`, o código processa a informação recebida.
 - **Emissão de Eventos (`io.emit`):** Como consequência da reação, o servidor emite novos eventos para notificar outros sistemas (neste caso, todos os clientes) sobre a mudança de estado, propagando a informação.
 
-[cite_start]Este ciclo de **escutar -> reagir -> emitir** é a demonstração prática da programação orientada a eventos. [cite: 9]
+Este ciclo de **escutar -> reagir -> emitir** é a demonstração prática da programação orientada a eventos. 
