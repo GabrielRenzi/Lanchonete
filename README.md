@@ -4,8 +4,8 @@
 Este projeto implementa uma aplicação web em tempo real que simula o sistema de pedidos de uma lanchonete, utilizando o paradigma de programação orientada a eventos.
 
 **Membros do Grupo:**
-- Desenvolvido por: Gabriel Renzi
-- Desenvolvido por: Anderson Nilton de Souza
+- Desenvolvido por: @GabrielRenzi
+- Desenvolvido por: @andersonniltondesouza-unidavi
 
 ---
 
