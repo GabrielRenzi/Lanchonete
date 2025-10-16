@@ -5,7 +5,7 @@ Este projeto implementa uma aplicação web em tempo real que simula o sistema d
 
 **Membros do Grupo:**
 - Desenvolvido por: @GabrielRenzi
-- Desenvolvido por: @andersonniltondesouza-unidavi
+- Desenvolvido por: @[andersonniltondesouza-unidavi]
 
 ---
 
